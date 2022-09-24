@@ -1,0 +1,20 @@
+{% extends 'ratingbeer/base.html' %}
+
+{% block content %}
+
+    <ul>
+    {% for obj in posts %}
+
+        <li>
+            <h3>{{ obj.title }}</h3>
+            <p>{{ obj.description }}</p>
+            <p>{{ obj.price }}</p>
+
+        </li>
+
+    {% endfor %}
+
+    </ul>
+
+{% endblock content %}
+
