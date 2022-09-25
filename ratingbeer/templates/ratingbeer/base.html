@@ -2,20 +2,43 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <link rel="stylesheet" href="{% static 'ratingbeer/css/style.css' %}">
     <meta charset="UTF-8">
     <title> Главная страница </title>
-    <link rel="shortcut icon" href="{% static 'ratingbeer/images/icon.png'%}" type="image/x-icon">
+    <link type="text/css" href="{% static 'ratingbeer/css/style.css' %}" rel="stylesheet"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <link rel="shortcut icon" href="{% static 'ratingbeer/images/icon.png'%}" type="image/x-icon"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
+<div class="container">
+    <header class="header">
+        <div class="container">
+            <div class="header__blocks">
+
+                <div class="header__logo">
+                    <a href="{% url 'home' %}">
+                        <img src="{% static 'ratingbeer/images/icon.png' %}" alt="">
+                    </a>
+                </div>
+
+                <nav class="header__nav1">
+                    <a href="{% url 'home' %}" class="nav__link1">Главная</a>
+                    <a href="#!" class="nav__link1">Категории</a>
+                    <a href="#!" class="nav__link1">Контакты</a>
+                </nav>
+
+
+            </div>
+        </div>
+    </header>
+
 {% block mainmenu %}
-<ul>
-    <ul>Менюшка</ul>
-</ul>
+
 {% endblock mainmenu %}
 {% block content %}
 
 {% endblock content%}
+
+</div>
 </body>
 </html>
