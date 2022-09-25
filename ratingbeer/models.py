@@ -21,7 +21,16 @@ class Beer(models.Model):
 
     @property
     def short_title(self):
-        return truncatechars(self.title, 20)
+        new_name = ''
+        for word in self.title.split():
+            if word[0].isupper():
+                new_name += word + ' '
+        if new_name.split()[0] == 'Пивной':
+            new_name = new_name.split()
+            new_name[0] = 'Пивной напиток'
+            new_name = ' '.join(new_name)
+        return new_name
+
     @property
     def short_description(self):
         return truncatechars(self.description, 35)

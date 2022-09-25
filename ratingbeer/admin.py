@@ -8,16 +8,19 @@ class ArticleAdmin(admin.ModelAdmin):
 
 
 class BeerAdmin(admin.ModelAdmin):
-    list_display = ('id', 'short_title', 'short_description', 'price', 'alcogol', 'category', 'country',
-                    'image', 'time_create', 'is_published')
+    list_display = ('id', 'short_title', 'short_description', 'price', 'alcogol', 'category',
+                    'country', 'image', 'time_create', 'is_published')
 
     list_display_links = ('id', 'short_title')
     list_editable = ('is_published', )
+    list_per_page = 15
 
+    ordering = ('id',)
 
 
 class CategoryAdmin(admin.ModelAdmin):
-    pass
+    list_display = ('id', 'title')
+    list_display_links = list_display
 
 
 admin.site.register(Beer, BeerAdmin)

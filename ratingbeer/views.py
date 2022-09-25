@@ -4,7 +4,7 @@ from .models import *
 
 
 def index(request):
-    posts = Beer.objects.all()
+    posts = Beer.objects.filter(is_published=True)
     context = {'posts': posts[:10],
                }
 
