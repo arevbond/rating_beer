@@ -18,7 +18,7 @@
                 <li class="post_list">
                 <div class="article-panel">
                     <p class='first'> Категория : {{ obj.category }}</p>
-                    <p class="last">Дата : {{ obj.time_update }}</p>
+                    <p class="last">Дата : {{ obj.time_update | date:'d-m-Y H:i:s' }}</p>
                 </div>
                 <h3 class="post_title">{{ obj.title }}</h3>
                 <p class="post_alcogol">Алкоголь {{ obj.alcogol }}%</p>
