@@ -6,7 +6,7 @@ from django.template.defaultfilters import truncatechars
 class Beer(models.Model):
     title = models.CharField(max_length=200, verbose_name='Название')
     description = models.TextField(verbose_name='Описание')
-    price = models.PositiveIntegerField(verbose_name='Цена')
+    price = models.PositiveIntegerField(verbose_name='Цена', null=True)
     alcogol = models.FloatField(default=5, verbose_name='Алкоголь')
     category = models.ForeignKey('Category', on_delete=models.SET_NULL, null=True,
                                  verbose_name='Категория')
@@ -14,7 +14,7 @@ class Beer(models.Model):
                                 verbose_name='Страна')
     image = models.ImageField(upload_to='media/%Y/%m/%d', height_field=200, width_field=200,
                               verbose_name='Фото')
-    slug = models.SlugField(verbose_name='Slug')
+    # slug = models.SlugField(max_length=255, unique=True, db_index=True, verbose_name='URL')
     time_create = models.DateTimeField(auto_now_add=True, verbose_name='Время создания')
     time_update = models.DateTimeField(auto_now=True, verbose_name='Время обновления')
     is_published = models.BooleanField(default=False, verbose_name='Опубликовано')
@@ -49,6 +49,7 @@ class Beer(models.Model):
 
 class Country(models.Model):
     title = models.CharField(max_length=200)
+    slug = models.SlugField(max_length=255, unique=True, db_index=True, verbose_name='URL')
 
     def __str__(self):
         return self.title
@@ -61,7 +62,7 @@ class Country(models.Model):
 
 class Category(models.Model):
     title = models.CharField(max_length=200, verbose_name='Категория')
-    desc = models.TextField()
+    slug = models.SlugField(max_length=255, unique=True, db_index=True, verbose_name='URL')
 
     def __str__(self):
         return self.title
@@ -70,3 +71,7 @@ class Category(models.Model):
         verbose_name = 'Категории'
         verbose_name_plural = 'Категории'
         ordering = ['id']
+
+
+class Rating(models.Model):
+    value = models.PositiveIntegerField()

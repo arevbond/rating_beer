@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse
 from .models import *
 
@@ -10,6 +10,9 @@ def index(request):
 
     return render(request, 'ratingbeer/index.html', context=context)
 
-def show_post(requset, post_id):
-    return HttpResponse(f'Пост с id: {post_id}')
+def show_post(request, post_id):
+    post = get_object_or_404(Beer, pk=post_id)
+    context = {'post': post}
+
+    return render(request, 'ratingbeer/post.html', context=context)
 

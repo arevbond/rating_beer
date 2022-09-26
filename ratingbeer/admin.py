@@ -3,10 +3,6 @@ from django.contrib import admin
 from .models import *
 
 
-class ArticleAdmin(admin.ModelAdmin):
-    prepopulated_fields = {'slug': ('title',)}
-
-
 class BeerAdmin(admin.ModelAdmin):
     list_display = ('id', 'short_title', 'short_description', 'price', 'alcogol', 'category',
                     'country', 'image', 'time_create', 'is_published')
@@ -21,6 +17,7 @@ class BeerAdmin(admin.ModelAdmin):
 class CategoryAdmin(admin.ModelAdmin):
     list_display = ('id', 'title')
     list_display_links = list_display
+    prepopulated_fields = {'slug': ('title',)}
 
 
 admin.site.register(Beer, BeerAdmin)
