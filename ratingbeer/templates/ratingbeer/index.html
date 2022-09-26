@@ -20,9 +20,11 @@
                     <p class='first'> Категория : {{ obj.category }}</p>
                     <p class="last">Дата : {{ obj.time_update | date:'d-m-Y H:i:s' }}</p>
                 </div>
-                <h3 class="post_title">{{ obj.title }}</h3>
+                    <a class='link_to_post' href="{{ obj.get_absolute_url }}">
+                        <h3 class="post_title">{{ obj.title }}</h3>
+                    </a>
                 <p class="post_alcogol">Алкоголь {{ obj.alcogol }}%</p>
-                <p class="post_desc">{{ obj.description }}</p>
+{#                <p class="post_desc">{{ obj.description }}</p>#}
             </li>
             </div>
 
