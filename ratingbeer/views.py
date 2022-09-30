@@ -1,10 +1,12 @@
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse
 from django.views.generic import ListView, DetailView
+
+from .utils import *
 from .models import *
 
 
-class BeerList(ListView):
+class BeerList(DataMixin, ListView):
     model = Beer
     template_name = 'ratingbeer/index.html'
     context_object_name = 'posts'
