@@ -14,32 +14,30 @@
 
 
 {% block mainmenu %}
-<header class="header">
-        <div class="container">
-            <div class="header__blocks">
-
-                <div class="header__logo">
-                    <a href="{% url 'home' %}">
-                        <img src="{% static 'ratingbeer/images/icon.png' %}" alt="">
-                    </a>
-                </div>
-
-                <nav class="header__nav1">
-                    <a href="{% url 'home' %}" class="nav__link1">Главная</a>
-                    <a href="#!" class="nav__link1">Категории</a>
-                    <a href="#!" class="nav__link1">Контакты</a>
-                    {% if request.user.is_authenticated %}
-                    <a href="{% url 'logout' %}"> Выйти</a>
-                    {% else %}
-                    <a href="{% url 'login' %}" class="nav__link1 last ">Логин</a>
-                    <a href="{% url 'register' %}" class="nav__link1 last">Регистрация</a>
-                    {% endif %}
-                </nav>
-
-
-            </div>
+<div class="header">
+    <div class="header__section">
+        <div class="header__item headerlogo">
+            <a href="{% url 'home' %}">
+                <img src="{% static 'ratingbeer/images/icon.png' %}" alt="">
+            </a>
         </div>
-    </header>
+        <div class="header__item headerButton"><a href="{% url 'home' %}"
+                                                  class="nav__link1">Главная</a></div>
+
+        <div class="header__item headerButton"><a href="#!" class="nav__link1">Категории</a></div>
+        <div class="header__item headerButton"><a href="#!" class="nav__link1">Контакты</a></div>
+        </div>
+        <div class="header__section">
+            {% if request.user.is_authenticated %}
+            <div class="header__item headerButton"><a href="{% url 'logout' %}"> Выйти</a></div>
+            {% else %}
+            <div class="header__item headerButton"><a href="{% url 'login' %}"
+                                                      class="nav__link1 last ">Логин</a></div>
+            <div class="header__item headerButton"><a href="{% url 'register' %}"
+                                                      class="nav__link1 last">Регистрация</a></div>
+            {% endif %}
+        </div>
+    </div>
 {% endblock mainmenu %}
 {% block content %}
 {% endblock content%}
