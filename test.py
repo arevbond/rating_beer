@@ -24,4 +24,4 @@ with open('ru_pivo.json') as file:
 #     print(translit(beer.get('name'), language_code='ru', reversed=True).lower())
 
 for beer in data:
-    Beer.objects.create(title=beer.get('name'), description=beer.get('desc'), alcogol=beer.get('alcogol'), category_id=1, country_id=1, image=beer.get('img'))
+    Beer.objects.create(title=beer.get('name'), description=beer.get('desc'), alcogol=beer.get('alcogol'), category_id=1, country_id=1)

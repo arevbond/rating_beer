@@ -1,6 +1,9 @@
 from django.db import models
 from django.urls import reverse
 from django.template.defaultfilters import truncatechars
+from django.contrib.auth.models import User
+from django.core.validators import MinValueValidator, MaxValueValidator
+from django.db.models import CheckConstraint, Q, UniqueConstraint
 
 
 class Beer(models.Model):
@@ -73,5 +76,27 @@ class Category(models.Model):
         ordering = ['id']
 
 
+
+
 class Rating(models.Model):
-    value = models.PositiveIntegerField()
+    rate = models.FloatField(validators=[MinValueValidator(0.0), MaxValueValidator(10.0)])
+    beer = models.ForeignKey(Beer, on_delete=models.CASCADE, verbose_name='Пиво')
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+
+    class Meta:
+        constraints = [
+            CheckConstraint(check=Q(rate__range=(0, 10)), name='valid_rate'),
+            UniqueConstraint(fields=['user', 'beer'], name='rating_once')
+        ]
+
+
+class Comment(models.Model):
+    title = models.CharField(max_length=255)
+    content = models.TextField()
+    beer = models.ForeignKey(Beer, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    created = models.DateField(auto_now_add=True)
+    update = models.DateField(auto_now=True)
+
+    def __str__(self):
+        return self.title

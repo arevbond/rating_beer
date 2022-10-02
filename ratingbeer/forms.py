@@ -5,8 +5,28 @@ from django.contrib.auth.forms import AuthenticationForm
 
 from .models import *
 
+
+class AddRatingFrom(forms.ModelForm):
+
+    def __init__(self, *args, **kwargs):
+        self.beer = kwargs['instance']
+        super().__init__(**kwargs)
+
+    # def save(self, commit=True):
+    #     obj = super(AddRatingFrom, self).save(commit=False)
+    #     obj.beer = self.beer
+    #     if commit:
+    #         obj.save()
+    #     return obj
+
+    class Meta:
+        model = Rating
+        fields = ('rate',)
+
+
 class AddReviewForm(forms.Form):
     pass
+
 
 class RegisterUserForm(UserCreationForm):
     username = forms.CharField(label='Логин', widget=forms.TextInput(attrs={'class': 'form-input'}))
@@ -20,9 +40,9 @@ class RegisterUserForm(UserCreationForm):
         model = User
         fields = ('username', 'email', 'password1', 'password2')
 
+
 class LoginUserForm(AuthenticationForm):
     username = forms.CharField(label='Логин',
                                widget=forms.TextInput(attrs={'class': 'form-input'}))
     password = forms.CharField(label='Пароль',
                                widget=forms.PasswordInput(attrs={'class': 'form-input'}))
-
