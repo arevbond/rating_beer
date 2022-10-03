@@ -2,22 +2,13 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import AuthenticationForm
+# from django.forms.widgets import NumberInput
 
 from .models import *
 
 
 class AddRatingFrom(forms.ModelForm):
-
-    def __init__(self, *args, **kwargs):
-        self.beer = kwargs['instance']
-        super().__init__(**kwargs)
-
-    # def save(self, commit=True):
-    #     obj = super(AddRatingFrom, self).save(commit=False)
-    #     obj.beer = self.beer
-    #     if commit:
-    #         obj.save()
-    #     return obj
+    rate = forms.FloatField(label='Рейтинг', widget=forms.NumberInput(attrs={'style': 'width:5ch'}))
 
     class Meta:
         model = Rating

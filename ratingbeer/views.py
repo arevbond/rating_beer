@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse, HttpRequest
-from django.views.generic import ListView, DetailView, CreateView
+from django.views.generic import ListView, DetailView, CreateView, UpdateView
 from django.contrib.auth.views import LoginView
 from django.urls import reverse_lazy
 from django.contrib.auth import logout
@@ -22,17 +22,19 @@ class BeerList(DataMixin, ListView):
         return Beer.objects.filter(is_published=True)
 
 
-class BeerDetail(DetailView, CreateView):
-    model = Beer
+class UpdateRatingView(UpdateView):
     template_name = 'ratingbeer/post.html'
-    pk_url_kwarg = 'post_id'
-    context_object_name = 'post'
-    form_class = AddRatingFrom
     success_url = reverse_lazy('home')
+    form_class = AddRatingFrom
+
+    def get_object(self, queryset=None):
+        obj = Rating.objects.filter(user=self.request.user,
+                                    beer_id=self.kwargs.get('post_id')).first()
+        return obj
 
     def get_context_data(self, **kwargs):
-        context = super().get_context_data()
-
+        context = super().get_context_data(**kwargs)
+        context['post'] = Beer.objects.get(pk=self.kwargs.get('post_id'))
         return context
 
     def form_valid(self, form):
@@ -41,6 +43,7 @@ class BeerDetail(DetailView, CreateView):
         obj.beer_id = self.kwargs.get('post_id')
         obj.save()
         return HttpResponseRedirect(reverse_lazy('home'))
+
 
 class RegisterUser(CreateView):
     form_class = RegisterUserForm
@@ -57,3 +60,12 @@ class LoginUser(LoginView):
 def logout_user(request):
     logout(request)
     return redirect('login')
+
+class Search(ListView):
+    model = Beer
+    template_name = 'ratingbeer/index.html'
+    context_object_name = 'posts'
+
+    def get_queryset(self):
+        return Beer.objects.filter(title__icontains=self.request.GET.get('q'))
+

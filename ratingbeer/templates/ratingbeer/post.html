@@ -1,16 +1,27 @@
 {% extends 'ratingbeer/base.html' %}
 
 {% block content %}
-    <div class="single_post">
-        <h1 class="post_title">{{ post.title }}</h1>
-        <p class="single_post_desc">{{ post.description }}</p>
+    <div class="blocks__post">
+        <div class="single_post">
+            <h1 class="post_title">{{ post.title }}</h1>
+            <p class="single_post_desc">{{ post.description }}</p>
+            <p class="single_post_alcogol">Алкоголь: {{ post.alcogol }}%</p>
+        </div>
+        {% if post.image %}
+            <div class="post__image">
+            <p><img src="{{ post.image.url }}" alt=""></p>
+            </div>
+        {% endif %}
     </div>
     {% if request.user.is_authenticated %}
-    <form method="post">
-    {% csrf_token %}
-        <div class="form-error">{{ form.non_field_errors }}</div>
-    {{ form.as_p }}
-    <button type="submit">Добавить</button>
-    </form>
+    <div class="rating__form__block">
+        <form method="post">
+        {% csrf_token %}
+            <div class="form-error">{{ form.non_field_errors }}</div>
+        {{ form.as_p }}
+        <button class='button__rating' type="submit">Добавить</button>
+
+        </form>
+    </div>
     {% endif %}
 {% endblock content%}

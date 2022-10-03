@@ -9,14 +9,13 @@ from django.db.models import CheckConstraint, Q, UniqueConstraint
 class Beer(models.Model):
     title = models.CharField(max_length=200, verbose_name='Название')
     description = models.TextField(verbose_name='Описание')
-    price = models.PositiveIntegerField(verbose_name='Цена', null=True)
+    price = models.PositiveIntegerField(verbose_name='Цена', null=True, blank=True)
     alcogol = models.FloatField(default=5, verbose_name='Алкоголь')
     category = models.ForeignKey('Category', on_delete=models.SET_NULL, null=True,
                                  verbose_name='Категория')
     country = models.ForeignKey('Country', on_delete=models.SET_NULL, null=True,
                                 verbose_name='Страна')
-    image = models.ImageField(upload_to='media/%Y/%m/%d', height_field=200, width_field=200,
-                              verbose_name='Фото')
+    image = models.ImageField(upload_to='media/%Y/%m/%d', verbose_name='Фото', blank=True)
     # slug = models.SlugField(max_length=255, unique=True, db_index=True, verbose_name='URL')
     time_create = models.DateTimeField(auto_now_add=True, verbose_name='Время создания')
     time_update = models.DateTimeField(auto_now=True, verbose_name='Время обновления')
@@ -86,9 +85,8 @@ class Rating(models.Model):
     class Meta:
         constraints = [
             CheckConstraint(check=Q(rate__range=(0, 10)), name='valid_rate'),
-            UniqueConstraint(fields=['user', 'beer'], name='rating_once')
         ]
-
+        #UniqueConstraint(fields=['user', 'beer'], name='rating_once')
 
 class Comment(models.Model):
     title = models.CharField(max_length=255)
