@@ -13,8 +13,7 @@ class Beer(models.Model):
     alcogol = models.FloatField(default=5, verbose_name='Алкоголь')
     category = models.ForeignKey('Category', on_delete=models.SET_NULL, null=True,
                                  verbose_name='Категория')
-    country = models.ForeignKey('Country', on_delete=models.SET_NULL, null=True,
-                                verbose_name='Страна')
+    country = models.CharField(null=True, verbose_name='Страна', max_length=255)
     image = models.ImageField(upload_to='media/%Y/%m/%d', verbose_name='Фото', blank=True)
     # slug = models.SlugField(max_length=255, unique=True, db_index=True, verbose_name='URL')
     time_create = models.DateTimeField(auto_now_add=True, verbose_name='Время создания')
@@ -49,18 +48,6 @@ class Beer(models.Model):
         ordering = ['id']
 
 
-class Country(models.Model):
-    title = models.CharField(max_length=200)
-    slug = models.SlugField(max_length=255, unique=True, db_index=True, verbose_name='URL')
-
-    def __str__(self):
-        return self.title
-
-    class Meta:
-        verbose_name = 'Страна'
-        verbose_name_plural = 'Страна'
-        ordering = ['title']
-
 
 class Category(models.Model):
     title = models.CharField(max_length=200, verbose_name='Категория')
@@ -74,7 +61,8 @@ class Category(models.Model):
         verbose_name_plural = 'Категории'
         ordering = ['id']
 
-
+    def get_absolute_url(self):
+        return reverse('category', kwargs={'cat_slug':self.slug})
 
 
 class Rating(models.Model):

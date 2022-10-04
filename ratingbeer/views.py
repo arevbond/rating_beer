@@ -26,6 +26,19 @@ class BeerList(DataMixin, ListView):
         context['cats'] = Category.objects.all()
         return context
 
+class CategoriesList(ListView):
+    model = Beer
+    template_name = 'ratingbeer/index.html'
+    context_object_name = 'posts'
+
+    def get_queryset(self):
+        return Beer.objects.filter(is_published=True, category__slug=self.kwargs['cat_slug'])
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data()
+        context['cats'] = Category.objects.all()
+        return context
+
 class UpdateRatingView(UpdateView):
     template_name = 'ratingbeer/post.html'
     success_url = reverse_lazy('home')
