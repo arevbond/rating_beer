@@ -21,6 +21,10 @@ class BeerList(DataMixin, ListView):
     def get_queryset(self):
         return Beer.objects.filter(is_published=True)
 
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super(BeerList, self).get_context_data()
+        context['cats'] = Category.objects.all()
+        return context
 
 class UpdateRatingView(UpdateView):
     template_name = 'ratingbeer/post.html'
@@ -50,6 +54,7 @@ class RegisterUser(CreateView):
     template_name = 'ratingbeer/register.html'
     success_url = reverse_lazy('login')
 
+
 class LoginUser(LoginView):
     template_name = 'ratingbeer/login.html'
     form_class = LoginUserForm
@@ -57,9 +62,11 @@ class LoginUser(LoginView):
     def get_success_url(self):
         return reverse_lazy('home')
 
+
 def logout_user(request):
     logout(request)
     return redirect('login')
+
 
 class Search(ListView):
     model = Beer
@@ -69,3 +76,16 @@ class Search(ListView):
     def get_queryset(self):
         return Beer.objects.filter(title__icontains=self.request.GET.get('q'))
 
+
+class ProfileUser(ListView):
+    model = Rating
+    template_name = 'ratingbeer/profile.html'
+    context_object_name = 'ratings'
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super(ProfileUser, self).get_context_data()
+        context['user'] = self.request.user
+        return context
+
+    def get_queryset(self):
+        return Rating.objects.filter(user=self.request.user).order_by('-rate')

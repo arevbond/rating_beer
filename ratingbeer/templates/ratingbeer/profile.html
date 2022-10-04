@@ -1,0 +1,24 @@
+{% extends 'ratingbeer/base.html' %}
+
+{% block content %}
+    <div class="profile__block">
+        <div class="profile__title">
+            <h1>Никнейм - {{ user }}</h1>
+        </div>
+        <div class="profile__desc">
+            <p>Твой ранг -</p>
+        </div>
+    </div>
+
+    <div class="profile__beers__block">
+    <div class="profile__beers__block__title">
+        <h1>Твоё пиво:</h1>
+    </div>
+    {% for rating in ratings %}
+        <div class="link_to_post_in_profile">
+            <a class='link_to_post' href="{{ rating.beer.get_absolute_url }}">
+            <h1>{{ rating.beer }} - {{ rating.rate }} баллов</h1></a>
+        </div>
+    {% endfor %}
+    </div>
+{% endblock %}

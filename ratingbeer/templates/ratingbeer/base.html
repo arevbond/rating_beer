@@ -24,11 +24,19 @@
         <div class="header__item headerButton"><a href="{% url 'home' %}"
                                                   class="nav__link1">Главная</a></div>
 
-        <div class="header__item headerButton"><a href="#!" class="nav__link1">Категории</a></div>
+        <div class="header__item headerButton dropdown">
+            <button class="dropbtn">Категории</button>
+            <div class="dropdown-content">
+                {% for c in cats %}
+                    <a href="{{ c.get_absolute_url }}">{{ c }}</a>
+                {% endfor %}
+            </div>
+        </div>
         <div class="header__item headerButton"><a href="#!" class="nav__link1">Контакты</a></div>
         </div>
         <div class="header__section">
             {% if request.user.is_authenticated %}
+            <div class="header__item headerButton"><a href="{% url 'profile' %}"> Профиль</a></div>
             <div class="header__item headerButton"><a href="{% url 'logout' %}"> Выйти</a></div>
             {% else %}
             <div class="header__item headerButton"><a href="{% url 'login' %}"
