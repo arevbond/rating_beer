@@ -20,7 +20,7 @@ class BeerList(DataMixin, ListView):
     context_object_name = 'posts'
 
     def get_queryset(self):
-        return Beer.objects.filter(is_published=True)
+        return Beer.objects.filter(is_published=True).select_related('category')
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super(BeerList, self).get_context_data()
@@ -34,7 +34,7 @@ class CategoriesList(ListView):
     context_object_name = 'posts'
 
     def get_queryset(self):
-        return Beer.objects.filter(is_published=True, category__slug=self.kwargs['cat_slug'])
+        return Beer.objects.filter(is_published=True, category__slug=self.kwargs['cat_slug']).select_related('category')
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data()
