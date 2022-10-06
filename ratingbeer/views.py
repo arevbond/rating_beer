@@ -7,6 +7,7 @@ from django.contrib.auth import logout
 from django.http import HttpResponseRedirect
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
+from django.db.models import Avg
 
 from .utils import *
 from .forms import *
@@ -24,6 +25,7 @@ class BeerList(DataMixin, ListView):
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super(BeerList, self).get_context_data()
         context['cats'] = Category.objects.all()
+        # context['posts'] = Beer.objects.filter(is_published=True)
         return context
 
 class CategoriesList(ListView):
@@ -41,7 +43,7 @@ class CategoriesList(ListView):
 
 class UpdateRatingView(UpdateView):
     template_name = 'ratingbeer/post.html'
-    success_url = reverse_lazy('home')
+    success_url = reverse_lazy('post')
     form_class = AddRatingFrom
 
     def get_object(self, queryset=None):
@@ -52,6 +54,7 @@ class UpdateRatingView(UpdateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['post'] = Beer.objects.get(pk=self.kwargs.get('post_id'))
+        context['avg_rate'] = Rating.objects.filter(beer_id=self.kwargs['post_id']).aggregate(Avg('rate'))['rate__avg']
         return context
 
     def form_valid(self, form):
@@ -95,6 +98,7 @@ class ProfileUser(ListView):
     template_name = 'ratingbeer/profile.html'
     context_object_name = 'ratings'
 
+
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super(ProfileUser, self).get_context_data()
         context['user'] = self.request.user
@@ -102,3 +106,16 @@ class ProfileUser(ListView):
 
     def get_queryset(self):
         return Rating.objects.filter(user=self.request.user).order_by('-rate')
+
+
+class UserProfilePictureCreate(UpdateView):
+    template_name = 'ratingbeer/profile.html'
+    form_class = UserProfileForm
+    success_url = reverse_lazy('home')
+
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data()
+        context['user'] = self.request.user
+        context['ratings'] = Rating.objects.filter(user=self.request.user).order_by('-rate')
+        return context

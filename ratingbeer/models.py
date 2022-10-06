@@ -48,7 +48,6 @@ class Beer(models.Model):
         ordering = ['id']
 
 
-
 class Category(models.Model):
     title = models.CharField(max_length=200, verbose_name='Категория')
     slug = models.SlugField(max_length=255, unique=True, db_index=True, verbose_name='URL')
@@ -62,7 +61,7 @@ class Category(models.Model):
         ordering = ['id']
 
     def get_absolute_url(self):
-        return reverse('category', kwargs={'cat_slug':self.slug})
+        return reverse('category', kwargs={'cat_slug': self.slug})
 
 
 class Rating(models.Model):
@@ -74,7 +73,8 @@ class Rating(models.Model):
         constraints = [
             CheckConstraint(check=Q(rate__range=(0, 10)), name='valid_rate'),
         ]
-        #UniqueConstraint(fields=['user', 'beer'], name='rating_once')
+        # UniqueConstraint(fields=['user', 'beer'], name='rating_once')
+
 
 class Comment(models.Model):
     title = models.CharField(max_length=255)
@@ -86,3 +86,8 @@ class Comment(models.Model):
 
     def __str__(self):
         return self.title
+
+
+class UserProfile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    avatar = models.ImageField(upload_to='profile_images/')
