@@ -23,4 +23,4 @@ class CategoryAdmin(admin.ModelAdmin):
 admin.site.register(Beer, BeerAdmin)
 admin.site.register(Rating)
 admin.site.register(Category, CategoryAdmin)
-admin.site.register(UserProfile)
+admin.site.register(Profile)

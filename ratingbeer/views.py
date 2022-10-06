@@ -102,16 +102,17 @@ class ProfileUser(ListView):
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super(ProfileUser, self).get_context_data()
         context['user'] = self.request.user
+        context['profile'] = Profile.objects.filter(user=self.request.user).first()
         return context
 
     def get_queryset(self):
         return Rating.objects.filter(user=self.request.user).order_by('-rate')
 
 
-class UserProfilePictureCreate(UpdateView):
+class UserProfilePictureCreate(CreateView):
     template_name = 'ratingbeer/profile.html'
     form_class = UserProfileForm
-    success_url = reverse_lazy('home')
+    success_url = reverse_lazy('profile')
 
 
     def get_context_data(self, **kwargs):

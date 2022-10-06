@@ -42,25 +42,25 @@ class LoginUserForm(AuthenticationForm):
 
 class UserProfileForm(forms.ModelForm):
     class Meta:
-        model = UserProfile
+        model = Profile
         fields = '__all__'
 
-    def clean_avatar(self):
-        avatar = self.cleaned_data['avatar']
-        try:
-            w, h = get_image_dimensions(avatar)
-
-            max_width = max_height = 100
-            if w > max_width or h > max_height:
-                raise forms.ValidationError(f'Please use an image that is {max_width} pixels'
-                                            f'or smaller')
-
-            main, sub = avatar.content_type.split('/')
-            if not (main == 'image' and sub in ['jpeg', 'pjpeg', 'gif', 'png']):
-                raise forms.ValidationError(f'Please use a JPEG, GIF or PNG image')
-
-            if len(avatar) > (28 * 1024):
-                raise forms.ValidationError(f'Avatar file size may not exced 20k')
-
-        except AttributeError:
-            pass
+    # def clean_avatar(self):
+    #     avatar = self.cleaned_data['avatar']
+    #     try:
+    #         w, h = get_image_dimensions(avatar)
+    #
+    #         max_width = max_height = 100
+    #         if w > max_width or h > max_height:
+    #             raise forms.ValidationError(f'Please use an image that is {max_width} pixels'
+    #                                         f'or smaller')
+    #
+    #         main, sub = avatar.content_type.split('/')
+    #         if not (main == 'image' and sub in ['jpeg', 'pjpeg', 'gif', 'png']):
+    #             raise forms.ValidationError(f'Please use a JPEG, GIF or PNG image')
+    #
+    #         if len(avatar) > (28 * 1024):
+    #             raise forms.ValidationError(f'Avatar file size may not exced 20k')
+    #
+    #     except AttributeError:
+    #         pass

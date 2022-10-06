@@ -88,6 +88,15 @@ class Comment(models.Model):
         return self.title
 
 
-class UserProfile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    avatar = models.ImageField(upload_to='profile_images/')
+class Profile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, null=True)
+    avatar = models.ImageField(upload_to='images/profile/', blank=True)
+    rang = models.ForeignKey('Rang', on_delete=models.CASCADE, null=True, blank=True)
+
+
+class Rang(models.Model):
+    title = models.CharField(max_length=200, verbose_name='Категория')
+    slug = models.SlugField(max_length=255, unique=True, db_index=True, verbose_name='URL')
+
+    def __str__(self):
+        return self.title
