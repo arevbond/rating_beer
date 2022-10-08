@@ -12,6 +12,8 @@ urlpatterns = [
     path('search/', Search.as_view(), name='search'),
 
     path('profile/', ProfileUser.as_view(), name='profile'),
-    path('profile/avatar/', UserProfilePictureCreate.as_view(), name='avatar')
+    path('profile/avatar/', UserProfilePictureCreate.as_view(), name='avatar'),
+
+    path('about/', about, name='about')
 ]
 

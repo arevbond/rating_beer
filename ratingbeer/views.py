@@ -122,3 +122,7 @@ class UserProfilePictureCreate(CreateView):
         context['user'] = self.request.user
         context['ratings'] = Rating.objects.filter(user=self.request.user).order_by('-rate')
         return context
+
+
+def about(request):
+    return render(request, 'ratingbeer/about.html')
