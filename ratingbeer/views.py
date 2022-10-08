@@ -14,6 +14,8 @@ from .forms import *
 from .models import *
 
 
+
+
 class BeerList(DataMixin, ListView):
     model = Beer
     template_name = 'ratingbeer/index.html'

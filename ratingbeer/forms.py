@@ -43,7 +43,7 @@ class LoginUserForm(AuthenticationForm):
 class UserProfileForm(forms.ModelForm):
     class Meta:
         model = Profile
-        fields = '__all__'
+        fields = ('user', 'avatar')
 
     # def clean_avatar(self):
     #     avatar = self.cleaned_data['avatar']
