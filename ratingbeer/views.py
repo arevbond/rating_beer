@@ -126,6 +126,12 @@ class UserProfilePictureCreate(UpdateView):
     def get_object(self, queryset=None):
         return Profile.objects.filter(user=self.request.user).first()
 
+    def form_valid(self, form):
+        obj = form.save(commit=False)
+        obj.user = self.request.user
+        obj.save()
+        return HttpResponseRedirect(reverse_lazy('profile'))
+
 
 def about(request):
     return render(request, 'ratingbeer/about.html')

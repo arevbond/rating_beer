@@ -9,7 +9,9 @@
             <p>Твой ранг -</p>
         </div>
         <div class="profile__pic">
+            {% if profile.avatar %}
             Фото - <img src="{{ profile.avatar.url }}"  width=100 height=100 alt="">
+            {% endif %}
             <a href="{% url 'avatar' %}">Изменить аватар</a>
         </div>
     </div>
