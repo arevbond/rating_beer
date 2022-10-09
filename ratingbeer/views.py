@@ -111,17 +111,20 @@ class ProfileUser(ListView):
         return Rating.objects.filter(user=self.request.user).order_by('-rate')
 
 
-class UserProfilePictureCreate(CreateView):
-    template_name = 'ratingbeer/profile.html'
+class UserProfilePictureCreate(UpdateView):
+    template_name = 'ratingbeer/change_avatar.html'
     form_class = UserProfileForm
     success_url = reverse_lazy('profile')
-
+    model = Profile
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data()
         context['user'] = self.request.user
         context['ratings'] = Rating.objects.filter(user=self.request.user).order_by('-rate')
         return context
+
+    def get_object(self, queryset=None):
+        return Profile.objects.filter(user=self.request.user).first()
 
 
 def about(request):

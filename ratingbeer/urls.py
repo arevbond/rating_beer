@@ -1,5 +1,8 @@
 from django.urls import path
+from django.views.decorators.cache import cache_page
+
 from .views import *
+
 urlpatterns = [
     path('', BeerList.as_view(), name='home'),
     path('post/<int:post_id>/', UpdateRatingView.as_view(), name='post'),
