@@ -30,7 +30,7 @@ class BeerList(DataMixin, ListView):
         # context['posts'] = Beer.objects.filter(is_published=True)
         return context
 
-class CategoriesList(ListView):
+class CategoriesList(DataMixin, ListView):
     model = Beer
     template_name = 'ratingbeer/index.html'
     context_object_name = 'posts'
@@ -88,12 +88,17 @@ def logout_user(request):
 
 class Search(ListView):
     model = Beer
-    template_name = 'ratingbeer/index.html'
+    template_name = 'ratingbeer/search.html'
     context_object_name = 'posts'
+    paginate_by = 3
 
     def get_queryset(self):
         return Beer.objects.filter(title__icontains=self.request.GET.get('q'))
 
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data()
+        context['cats'] = Category.objects.all()
+        return context
 
 class ProfileUser(ListView):
     model = Rating
@@ -104,6 +109,7 @@ class ProfileUser(ListView):
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super(ProfileUser, self).get_context_data()
         context['user'] = self.request.user
+        context['cats'] = Category.objects.all()
         context['profile'] = Profile.objects.filter(user=self.request.user).first()
         return context
 

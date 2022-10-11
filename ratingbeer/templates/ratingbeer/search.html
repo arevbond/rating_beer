@@ -1,0 +1,97 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title> Главная страница </title>
+    <link type="text/css" href="{% static 'ratingbeer/css/style.css' %}" rel="stylesheet"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <link rel="shortcut icon" href="{% static 'ratingbeer/images/icon.png'%}" type="image/x-icon"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+<div class="container">
+
+
+{% block mainmenu %}
+<div class="header">
+    <div class="header__section">
+        <div class="header__item headerlogo">
+            <a href="{% url 'home' %}">
+                <img src="{% static 'ratingbeer/images/icon.png' %}" alt="">
+            </a>
+        </div>
+        <div class="header__item headerButton"><a href="{% url 'home' %}"
+                                                  class="nav__link1">Главная</a></div>
+
+        <div class="header__item headerButton dropdown">
+            <button class="dropbtn">Категории</button>
+            <div class="dropdown-content">
+                {% for c in cats %}
+                    <a href="{{ c.get_absolute_url }}">{{ c }}</a>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="header__item headerButton"><a href="{% url 'about' %}" class="nav__link1">О сайте</a></div>
+        </div>
+        <div class="header__section">
+            {% if request.user.is_authenticated %}
+            <div class="header__item headerButton"><a href="{% url 'profile' %}"> Профиль</a></div>
+            <div class="header__item headerButton"><a href="{% url 'logout' %}"> Выйти</a></div>
+            {% else %}
+            <div class="header__item headerButton"><a href="{% url 'login' %}"
+                                                      class="nav__link1 last ">Логин</a></div>
+            <div class="header__item headerButton"><a href="{% url 'register' %}"
+                                                      class="nav__link1 last">Регистрация</a></div>
+            {% endif %}
+        </div>
+    </div>
+{% endblock mainmenu %}
+{% block content %}
+     <div class="intro">
+        <h1 class="catalog">Пиво</h1>
+    </div>
+
+    <div class="search_bar">
+{#        <h3 class="search_title">Поиск пива</h3>#}
+        <form action="{% url 'search' %}" method="get">
+            <input type="search" name="q" placeholder="Введите название пива">
+            <button type="submit">Поиск</button>
+        </form>
+    </div>
+
+    <div class="main_table">
+    {% for obj in posts %}
+
+        <div class="post">
+            <div class="post_list">
+                <div class="post_list">
+                <div class="article-panel">
+                    <p class='first'> Категория : {{ obj.category }}</p>
+{#                    <p class="last">Дата : {{ obj.time_update | date:'d-m-Y H:i:s' }}</p>#}
+                </div>
+                    <a class='link_to_post' href="{{ obj.get_absolute_url }}">
+                        <h3 class="post_title">{{ obj.title }}</h3>
+                    </a>
+                <p class="post_alcogol">Алкоголь {{ obj.alcogol }}%</p>
+                                <a href="{{ obj.get_absolute_url }}" >
+                                    <p class="post-image"><img src="{{ obj.image.url }}" alt=""></p></a>
+{#                <p class="post_desc">{{ obj.description }}</p>#}
+            </div>
+            </div>
+
+
+        </div>
+
+        <hr>
+
+    {% endfor %}
+
+    </div>
+
+{% endblock content %}
+
+
+</div>
+</body>
+</html>

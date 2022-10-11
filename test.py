@@ -1,7 +1,7 @@
 from transliterate import translit
 import json
 
-with open('import_pivo.json') as file:
+with open('all_import.json') as file:
     data = json.load(file)
 
 
@@ -22,6 +22,14 @@ with open('import_pivo.json') as file:
 #
 # for beer in data:
 #     print(translit(beer.get('name'), language_code='ru', reversed=True).lower())
+#
+# for beer in data:
+#     Beer.objects.create(title=beer.get('name'), description=beer.get('desc'), alcogol=beer.get('alcogol'), category_id=2, country_id=beer.get('county'))
 
-for beer in data:
-    Beer.objects.create(title=beer.get('name'), description=beer.get('desc'), alcogol=beer.get('alcogol'), category_id=2, country_id=beer.get('county'))
+for i in range(len(data)):
+    alcogol = data[i].get('alcogol')
+    if len(alcogol) == 1:
+        alcogol = int(alcogol)
+    else:
+        alcogol = float(alcogol.split()[0])
+    Beer.objects.create(title=data[i].get('name'), description=data[i].get('desc'), alcogol=alcogol,category_id=2, country=data[i].get('county'), image=f'media/import/{i}.png', is_published=True)

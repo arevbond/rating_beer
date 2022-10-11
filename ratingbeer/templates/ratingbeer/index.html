@@ -14,39 +14,34 @@
         </form>
     </div>
 
-    <ul class="main_table">
+    <div class="main_table">
     {% for obj in posts %}
 
         <div class="post">
             <div class="post_list">
-                <li class="post_list">
+                <div class="post_list">
                 <div class="article-panel">
                     <p class='first'> Категория : {{ obj.category }}</p>
-                    <p class="last">Дата : {{ obj.time_update | date:'d-m-Y H:i:s' }}</p>
+{#                    <p class="last">Дата : {{ obj.time_update | date:'d-m-Y H:i:s' }}</p>#}
                 </div>
                     <a class='link_to_post' href="{{ obj.get_absolute_url }}">
                         <h3 class="post_title">{{ obj.title }}</h3>
                     </a>
                 <p class="post_alcogol">Алкоголь {{ obj.alcogol }}%</p>
-                    <p>{{ rating }}</p>
+                                <a href="{{ obj.get_absolute_url }}" >
+                                    <p class="post-image"><img src="{{ obj.image.url }}" alt=""></p></a>
 {#                <p class="post_desc">{{ obj.description }}</p>#}
-            </li>
+            </div>
             </div>
 
-            <a href="{{ obj.get_absolute_url }}" class="post_btn_link">
-                <div class="post_btn">
-                    <p class="btn_text">
-                        Подробнее
-                    </p>
-                </div>
-            </a>
+
         </div>
 
         <hr>
 
     {% endfor %}
 
-    </ul>
+    </div>
 
 {% endblock content %}
 
