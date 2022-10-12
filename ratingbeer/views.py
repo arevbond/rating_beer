@@ -45,7 +45,6 @@ class CategoriesList(DataMixin, ListView):
 
 class UpdateRatingView(UpdateView):
     template_name = 'ratingbeer/post.html'
-    success_url = reverse_lazy('post')
     form_class = AddRatingFrom
 
     def get_object(self, queryset=None):
@@ -64,7 +63,10 @@ class UpdateRatingView(UpdateView):
         obj.user = self.request.user
         obj.beer_id = self.kwargs.get('post_id')
         obj.save()
-        return HttpResponseRedirect(reverse_lazy('home'))
+        return HttpResponseRedirect(reverse('post', args=(self.kwargs['post_id'],)))
+
+    def get_success_url(self):
+        return reverse('post')
 
 
 class RegisterUser(CreateView):
@@ -111,6 +113,7 @@ class ProfileUser(ListView):
         context['user'] = self.request.user
         context['cats'] = Category.objects.all()
         context['profile'] = Profile.objects.filter(user=self.request.user).first()
+        context['count_ratings'] = Rating.objects.filter(user=self.request.user).order_by('-rate').count()
         return context
 
     def get_queryset(self):

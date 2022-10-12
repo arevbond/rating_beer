@@ -90,7 +90,7 @@ class Comment(models.Model):
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, null=True)
-    avatar = models.ImageField(upload_to='images/profile/', blank=True)
+    avatar = models.ImageField(upload_to='images/profile/', blank=True,)
     rang = models.ForeignKey('Rang', on_delete=models.CASCADE, null=True, blank=True)
 
 

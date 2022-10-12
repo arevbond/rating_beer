@@ -3,7 +3,7 @@
 
 {% block content %}
      <div class="intro">
-        <h1 class="catalog">Пиво</h1>
+        <h1 class="catalog">Оцени пиво</h1>
     </div>
 
     <div class="search_bar">
@@ -25,7 +25,7 @@
 {#                    <p class="last">Дата : {{ obj.time_update | date:'d-m-Y H:i:s' }}</p>#}
                 </div>
                     <a class='link_to_post' href="{{ obj.get_absolute_url }}">
-                        <h3 class="post_title">{{ obj.title }}</h3>
+                        <h3 class="post_title">{{ obj.short_title }}</h3>
                     </a>
                 <p class="post_alcogol">Алкоголь {{ obj.alcogol }}%</p>
                                 <a href="{{ obj.get_absolute_url }}" >

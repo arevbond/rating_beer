@@ -2,27 +2,35 @@
 
 {% block content %}
     <div class="blocks__post">
+    <h1 class="post_title_in_post">{{ post.title }}</h1>
         <div class="single_post">
-            <h1 class="post_title">{{ post.title }}</h1>
-            <p class="single_post_desc">{{ post.description }}</p>
+
+           <div>
+                <p class="single_post_desc">{{ post.description }}</p>
             <p class="single_post_alcogol">Алкоголь: {{ post.alcogol }}%</p>
-            <p>Средний рейтинг пользователей : {{ avg_rate }}</p>
-        </div>
-        {% if post.image %}
-            <div class="post__image">
-            <p><img src="{{ post.image.url }}" alt=""></p>
+            {% if avg_rate %}
+           <p>Средний рейтинг пользователей : {{ avg_rate }}</p>
+           {% endif %}
+
+            {% if request.user.is_authenticated %}
+            <div class="rating__form__block">
+            <form method="post">
+            {% csrf_token %}
+            <div class="form-error">{{ form.non_field_errors }}</div>
+            {{ form.as_p }}
+            <button class='button__rating' type="submit">Добавить</button>
+
+            </form>
             </div>
         {% endif %}
+           </div>
+        <div>
+            {% if post.image %}
+            <div class="post__image">
+            <p><img class='image__in__post'src="{{ post.image.url }}" alt=""></p>
+            </div>
+        {% endif %}
+        </div>
+        </div>
     </div>
-    {% if request.user.is_authenticated %}
-    <div class="rating__form__block">
-        <form method="post">
-        {% csrf_token %}
-            <div class="form-error">{{ form.non_field_errors }}</div>
-        {{ form.as_p }}
-        <button class='button__rating' type="submit">Добавить</button>
-
-        </form>
-    </div>
-    {% endif %}
 {% endblock content%}

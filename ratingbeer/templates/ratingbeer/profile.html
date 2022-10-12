@@ -1,18 +1,23 @@
 {% extends 'ratingbeer/base.html' %}
 
 {% block content %}
+    {% load static %}
+    <div class="two__blocks__in__profile">
     <div class="profile__block">
         <div class="profile__title">
-            <h1>Никнейм - {{ user }}</h1>
+            <h1>{{ user }}</h1>
         </div>
-        <div class="profile__desc">
-            <p>Твой ранг -</p>
+        <div class="profile__rang">
+            <p>Школьник</p>
         </div>
         <div class="profile__pic">
             {% if profile.avatar %}
-            Фото - <img src="{{ profile.avatar.url }}"  width=100 height=100 alt="">
+             <img class='profile__pic-'src="{{ profile.avatar.url }}"  width=250 height=250
+                        alt="Твоя аватарка">
+             {% else %}
+                <img class='profile__pic-' src="{% static 'avatar/Guts.jpg' %}" width=250 height=250 alt="">
             {% endif %}
-            <a href="{% url 'avatar' %}">Изменить аватар</a>
+            <a href="{% url 'avatar' %}"><p class='btn_change_avatar'>Изменить аватар</p></a>
         </div>
     </div>
 
@@ -20,13 +25,14 @@
 
     <div class="profile__beers__block">
     <div class="profile__beers__block__title">
-        <h1>Твоё пиво:</h1>
+        <h1>Всего оценок : {{ count_ratings }}</h1>
     </div>
     {% for rating in ratings %}
         <div class="link_to_post_in_profile">
             <a class='link_to_post' href="{{ rating.beer.get_absolute_url }}">
-            <h1>{{ rating.beer }} - {{ rating.rate }} баллов</h1></a>
+            <h1><span class="profile__beer__title">{{ rating.beer.short_title }}</span> - {{ rating.rate }} &#9733;</h1></a>
         </div>
     {% endfor %}
+    </div>
     </div>
 {% endblock %}
