@@ -43,6 +43,31 @@ class CategoriesList(DataMixin, ListView):
         context['cats'] = Category.objects.all()
         return context
 
+
+class AddCommentView(UpdateView):
+    template_name = 'ratingbeer/add_comment.html'
+    form_class = AddCommentForm
+    model = Comment
+
+    def get_object(self, queryset=None):
+        obj = Comment.objects.filter(user=self.request.user,
+                                    beer_id=self.kwargs.get('post_id')).first()
+        return obj
+
+    def form_valid(self, form):
+        obj = form.save(commit=False)
+        obj.user = self.request.user
+        obj.beer_id = self.kwargs.get('post_id')
+        obj.profile = Profile.objects.get(user=self.request.user)
+        obj.save()
+        return HttpResponseRedirect(reverse('post', args=(self.kwargs['post_id'],)))
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data()
+        context['profile'] = Profile.objects.filter(user=self.request.user).first()
+        return context
+
+
 class UpdateRatingView(UpdateView):
     template_name = 'ratingbeer/post.html'
     form_class = AddRatingFrom
@@ -55,6 +80,7 @@ class UpdateRatingView(UpdateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['post'] = Beer.objects.get(pk=self.kwargs.get('post_id'))
+        context['comments'] = Comment.objects.filter(beer_id=self.kwargs['post_id'])
         context['avg_rate'] = Rating.objects.filter(beer_id=self.kwargs['post_id']).aggregate(Avg('rate'))['rate__avg']
         return context
 
@@ -65,8 +91,7 @@ class UpdateRatingView(UpdateView):
         obj.save()
         return HttpResponseRedirect(reverse('post', args=(self.kwargs['post_id'],)))
 
-    def get_success_url(self):
-        return reverse('post')
+
 
 
 class RegisterUser(CreateView):

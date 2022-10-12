@@ -78,20 +78,22 @@ class Rating(models.Model):
 
 class Comment(models.Model):
     title = models.CharField(max_length=255)
-    content = models.TextField()
-    beer = models.ForeignKey(Beer, on_delete=models.CASCADE)
+    content = models.TextField(max_length=255)
+    beer = models.ForeignKey(Beer, on_delete=models.CASCADE, null=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    created = models.DateField(auto_now_add=True)
-    update = models.DateField(auto_now=True)
+    created = models.DateField(auto_now_add=True, blank=True, null=True)
+    update = models.DateField(auto_now=True, blank=True, null=True)
+    profile = models.ForeignKey('Profile', on_delete=models.CASCADE, blank=True, null=True)
 
-    def __str__(self):
-        return self.title
+    def get_absolute_url(self):
+        return reverse('add_comment', kwargs={'post_id': self.beer.pk})
 
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, null=True)
     avatar = models.ImageField(upload_to='images/profile/', blank=True,)
     rang = models.ForeignKey('Rang', on_delete=models.CASCADE, null=True, blank=True)
+
 
 
 class Rang(models.Model):

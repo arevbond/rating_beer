@@ -16,8 +16,10 @@ class AddRatingFrom(forms.ModelForm):
         fields = ('rate',)
 
 
-class AddReviewForm(forms.Form):
-    pass
+class AddCommentForm(forms.ModelForm):
+    class Meta:
+        model = Comment
+        fields = ('title', 'content', )
 
 
 class RegisterUserForm(UserCreationForm):

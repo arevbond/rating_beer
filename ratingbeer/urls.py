@@ -17,6 +17,8 @@ urlpatterns = [
     path('profile/', ProfileUser.as_view(), name='profile'),
     path('profile/avatar/', UserProfilePictureCreate.as_view(), name='avatar'),
 
-    path('about/', about, name='about')
+    path('about/', about, name='about'),
+
+    path('add_comment/<int:post_id>', AddCommentView.as_view(), name='add_comment')
 ]
 

@@ -33,4 +33,25 @@
         </div>
         </div>
     </div>
+    
+    <div class="add_comment_block">
+        <a href="{% url 'add_comment' post_id=post.id%}">Добавить коментарий</a>
+    </div>
+    
+
+    {% for comment in comments %}
+        <div class="comments__block">
+        <div class="comment__user__profile">
+        <img src="{{ comment.profile.avatar.url }}" height="200" width="200" alt="" class="comment__image">
+        <h1 class="comment__user">{{ comment.profile.user }}</h1>
+        </div>
+        <div class="comment__block">
+            <h1 class="comment__title">
+                {{ comment.title }}
+            </h1>
+            <p class="comment__content">{{ comment.content }}</p>
+        </div>
+        </div>
+    {% endfor %}
+
 {% endblock content%}
