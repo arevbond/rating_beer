@@ -1,7 +1,10 @@
 {% extends 'ratingbeer/base.html' %}
-
+{% load static %}
 {% block content %}
-<form method="post">
+<div class="form_block">
+<img class='welcome__img' src="{% static 'hello.jpg' %}"  height="400px" alt="">
+<div class="login_form">
+    <form method="post">
     {% csrf_token %}
     <div class="form-error">{{ form.non_field_errors }}</div>
 
@@ -11,5 +14,11 @@
     {% endfor %}
     <button type="submit">Войти</button>
 
+    <p class="login_text_to_register">
+        Если вы не зарегистрированы, пожалуйста пройдите <a href="{% url 'register' %}">регистрацию</a>
+    </p>
+
 </form>
+</div>
+</div>
 {% endblock %}

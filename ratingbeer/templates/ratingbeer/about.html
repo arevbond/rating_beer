@@ -1,6 +1,9 @@
 {% extends 'ratingbeer/base.html' %}
+{% load static %}
 
 {% block content %}
-    <h1>Всем здарова это сайт для оценки пивчанского</h1>
-    <p>Сделал этот сайт Никита Бондарев</p>
+    <div class="about_block">
+        <p>На данном сайте Вы можете записывать свои оценки различного пива</p>
+        <img src="{% static 'about.jpg' %}" alt="">
+    </div>
 {% endblock %}

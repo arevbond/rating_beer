@@ -8,6 +8,8 @@ from django.http import HttpResponseRedirect
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
 from django.db.models import Avg
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 from .utils import *
 from .forms import *
@@ -68,9 +70,10 @@ class AddCommentView(UpdateView):
         return context
 
 
-class UpdateRatingView(UpdateView):
+class UpdateRatingView(LoginRequiredMixin, UpdateView):
     template_name = 'ratingbeer/post.html'
     form_class = AddRatingFrom
+    login_url = 'login'
 
     def get_object(self, queryset=None):
         obj = Rating.objects.filter(user=self.request.user,
@@ -117,7 +120,7 @@ class Search(ListView):
     model = Beer
     template_name = 'ratingbeer/search.html'
     context_object_name = 'posts'
-    paginate_by = 3
+    paginate_by = 8
 
     def get_queryset(self):
         return Beer.objects.filter(title__icontains=self.request.GET.get('q'))

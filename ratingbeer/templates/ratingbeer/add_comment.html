@@ -1,7 +1,7 @@
 {% extends 'ratingbeer/base.html' %}
 
 {% block content %}
-    <div class="">
+    <div class="add_comment">
         <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
             <div class="form-error">{{ form.non_field_errors }}</div>
