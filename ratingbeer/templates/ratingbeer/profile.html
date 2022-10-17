@@ -7,9 +7,9 @@
         <div class="profile__title">
             <h1>{{ user }}</h1>
         </div>
-{#        <div class="profile__rang">#}
-{#            <p>Школьник</p>#}
-{#        </div>#}
+        <div class="profile__rang">
+            <p>{{ profile.rang }}</p>
+        </div>
         <div class="profile__pic">
             {% if profile.avatar %}
              <img class='profile__pic-'src="{{ profile.avatar.url }}"  width=250 height=250
